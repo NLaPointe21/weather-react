@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import WeatherData from "./WeatherData";
 import axios from "axios";
-import ConfiguredDate from "./ConfiguredDate";
 import "./Weather.css";
 
-export default function Weather() {
-  let [weather, setWeather] = useState({ ready: false });
+export default function Weather(props) {
+  const [weather, setWeather] = useState({ ready: false });
+  const [city, setCity] = useState(props.city);
 
   function handleResponse(response) {
     setWeather({
@@ -18,16 +19,33 @@ export default function Weather() {
       wind: Math.round(response.data.wind.speed),
     });
   }
+
+  function search() {
+    let apiKey = "bcab18012202c8b1538d81911758744a";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  function searchSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function changeCity(event) {
+    setCity(event.target.value);
+  }
+
   if (weather.ready) {
     return (
       <div className="Weather">
         <div className="Search">
-          <form>
+          <form onSubmit={searchSubmit}>
             <input
               type="search"
               placeholder="Change city"
               className="city-search"
               id="city-search"
+              onChange={changeCity}
             />
             <input type="submit" value="Search" className="search-button" />
             <input
@@ -37,47 +55,11 @@ export default function Weather() {
             />
           </form>
         </div>
-        <div className="Header">
-          <h2>{weather.city}</h2>
-          <ConfiguredDate date={weather.date} />
-        </div>
-        <div className="container current-day">
-          <div className="row">
-            <div className="col-6 current-day-icon-div">
-              <img
-                src={weather.icon}
-                className="current-day-icon"
-                alt={weather.description}
-              ></img>
-            </div>
-            <div className="col-6 current-day-div">
-              <h1>
-                <span id="current-temp">{weather.temp}</span>
-                <span className="units">
-                  <strong className="metric-units">°C</strong> |
-                  <span className="imperial-units">°F</span>
-                </span>
-              </h1>
-              <ul>
-                <li className="weather-description">{weather.description}</li>
-                <li>
-                  Humidity: <span className="humidity">{weather.humidity}</span>
-                  %
-                </li>
-                <li>
-                  Wind: <span className="wind">{weather.wind}</span> km/h
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <WeatherData data={weather} />
       </div>
     );
   } else {
-    let apiKey = "bcab18012202c8b1538d81911758744a";
-    let city = "Lisbon";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-    axios.get(apiUrl).then(handleResponse);
+    search();
     return `Loading City Weather...`;
   }
 }

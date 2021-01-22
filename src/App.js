@@ -9,7 +9,7 @@ export default function App() {
   return (
     <div className="App">
       <div className="body">
-        <Weather />
+        <Weather city="London" />
       </div>
       <div className="footer">
         <p className="source-code">
