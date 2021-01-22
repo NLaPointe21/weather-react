@@ -1,10 +1,7 @@
 import React from "react";
 import "./App.css";
 
-import Search from "./Search";
-import Header from "./Header";
 import Weather from "./Weather";
-import Footer from "./Footer";
 
 import "./App.css";
 
@@ -12,11 +9,20 @@ export default function App() {
   return (
     <div className="App">
       <div className="body">
-        <Search />
-        <Header />
         <Weather />
       </div>
-      <Footer />
+      <div className="footer">
+        <p className="source-code">
+          <a
+            href="https://github.com/NLaPointe21/weather-react"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Open-source code
+          </a>{" "}
+          by NhakiraLaPointe
+        </p>
+      </div>
     </div>
   );
 }
