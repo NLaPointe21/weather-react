@@ -1,5 +1,6 @@
 import React from "react";
 import ConfiguredDate from "./ConfiguredDate";
+import UnitConversion from "./UnitConversion";
 
 export default function WeatherData(props) {
   return (
@@ -18,13 +19,7 @@ export default function WeatherData(props) {
             ></img>
           </div>
           <div className="col-6 current-day-div">
-            <h1>
-              <span id="current-temp">{props.data.temp}</span>
-              <span className="units">
-                <strong className="metric-units">°C</strong> |
-                <span className="imperial-units">°F</span>
-              </span>
-            </h1>
+            <UnitConversion celsius={props.data.temp} />
             <ul>
               <li className="weather-description">{props.data.description}</li>
               <li>
