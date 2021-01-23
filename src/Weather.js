@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import WeatherData from "./WeatherData";
+import WeeklyForecast from "./WeeklyForecast";
 import axios from "axios";
 import "./Weather.css";
 
@@ -35,6 +36,19 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
+  function searchCity(position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    let apiKey = "bcab18012202c8b1538d81911758744a";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  function searchCurrentLocation(event) {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(searchCity);
+  }
+
   if (weather.ready) {
     return (
       <div className="Weather">
@@ -52,10 +66,12 @@ export default function Weather(props) {
               type="button"
               value="Current location"
               className="current-location"
+              onClick={searchCurrentLocation}
             />
           </form>
         </div>
         <WeatherData data={weather} />
+        {/* <WeeklyForecast city={weather.city} /> */}
       </div>
     );
   } else {
