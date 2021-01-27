@@ -5,14 +5,13 @@ export default function UnitConversion(props) {
   let celsiusTemp = props.celsius;
   let fahrenheitTemp = (celsiusTemp * 9) / 5 + 32;
 
-  function displayCelsius(event) {
+  function toggleTemp(event) {
     event.preventDefault();
-    setUnit("celsius");
-  }
-
-  function displayFahrenheit(event) {
-    event.preventDefault();
-    setUnit("fahrenheit");
+    if (unit === "celsius") {
+      setUnit("fahrenheit");
+    } else {
+      setUnit("celsius");
+    }
   }
 
   if (unit === "celsius") {
@@ -22,7 +21,7 @@ export default function UnitConversion(props) {
         <span className="units">
           <strong className="metric-units">°C</strong> |
           <span className="imperial-units">
-            <a href="/" onClick={displayFahrenheit}>
+            <a href="/" onClick={toggleTemp}>
               °F
             </a>
           </span>
@@ -35,7 +34,7 @@ export default function UnitConversion(props) {
         <span id="current-temp">{Math.round(fahrenheitTemp)}</span>
         <span className="units">
           <strong className="metric-units">
-            <a href="/" onClick={displayCelsius}>
+            <a href="/" onClick={toggleTemp}>
               °C
             </a>
           </strong>{" "}

@@ -1,31 +1,31 @@
 import React, { useState } from "react";
-import Forecast from "./Forecast";
+import DayForecast from "./DayForecast";
 import axios from "axios";
+import "./WeeklyForecast.css";
 
 export default function WeeklyForecast(props) {
-  const [load, setLoad] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [forecast, setForecast] = useState(null);
 
-  function handleResponse(response) {
+  function handleForecastResponse(response) {
     setForecast(response.data);
-    setLoad(true);
+    setLoaded(true);
   }
 
-  if (load && props.city === forecast.city.name) {
+  if (loaded && props.city === forecast.city.name) {
     return (
-      <div class="WeeklyForecast row">
-        <Forecast data={forecast.list[0]} />
-        <Forecast data={forecast.list[1]} />
-        <Forecast data={forecast.list[2]} />
-        <Forecast data={forecast.list[3]} />
-        <Forecast data={forecast.list[4]} />
+      <div className="WeeklyForecast row">
+        <DayForecast data={forecast.list[0]} />
+        <DayForecast data={forecast.list[1]} />
+        <DayForecast data={forecast.list[2]} />
+        <DayForecast data={forecast.list[3]} />
       </div>
     );
   } else {
-    let apiKey = "bcab18012202c8b1538d81911758744a";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(handleResponse);
+    let apiKey = "07c0058f22eafa48286032eb134abbce";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${props.city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleForecastResponse);
 
-    return `Loading Week Forecast...`;
+    return `Loading week forecast...`;
   }
 }

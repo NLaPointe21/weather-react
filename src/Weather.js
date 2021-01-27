@@ -12,8 +12,9 @@ export default function Weather(props) {
     setWeather({
       ready: true,
       city: response.data.name,
+      country: response.data.sys.country,
       date: new Date(response.data.dt * 1000),
-      icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      icon: response.data.weather[0].icon,
       temp: Math.round(response.data.main.temp),
       description: response.data.weather[0].description,
       humidity: response.data.main.humidity,
@@ -22,7 +23,7 @@ export default function Weather(props) {
   }
 
   function search() {
-    let apiKey = "bcab18012202c8b1538d81911758744a";
+    let apiKey = "07c0058f22eafa48286032eb134abbce";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(handleResponse);
   }
@@ -39,7 +40,7 @@ export default function Weather(props) {
   function searchCity(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
-    let apiKey = "bcab18012202c8b1538d81911758744a";
+    let apiKey = "07c0058f22eafa48286032eb134abbce";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${apiKey}`;
     axios.get(apiUrl).then(handleResponse);
   }
@@ -71,7 +72,7 @@ export default function Weather(props) {
           </form>
         </div>
         <WeatherData data={weather} />
-        {/* <WeeklyForecast city={weather.city} /> */}
+        <WeeklyForecast city={weather.city} />
       </div>
     );
   } else {

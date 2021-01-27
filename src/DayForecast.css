@@ -1,0 +1,9 @@
+.DayForecast {
+  padding: 0 4%;
+}
+
+.hourly-forecast {
+  margin: 0 0 0 7px;
+  padding: 0;
+  text-align: center;
+}
